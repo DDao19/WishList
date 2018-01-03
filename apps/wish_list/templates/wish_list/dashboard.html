@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"></link>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'wish_list/css/style2.css' %}">
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <a href="/logout" class="mt-2" style="float:right;"><button type="button" class="btn btn-danger" name="Logout">Logout</button></a>
+          <h1 class="text-center my-5">Hello there {{logged_user.username}}</h1>
+          {% if messages %}
+          <div class="messages alert alert-success">
+              {% for message in messages %}
+              <p>{{ message }}</p>
+              {% endfor %}
+          </div>
+          {% endif %}
+          <h3>Your wish list!</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Added by</th>
+                <th>Date added</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in my_products %}
+
+              <tr>
+                <th scope="row"><a href="wish_items/{{product.poster.id}}">{{product.item}}</a></th>
+                <td>{{product.poster.username}}</td>
+                <td>{{product.created_at}}</td>
+                <td><a href="/delete/{{product.id}}"><button class="btn btn-danger">Delete</button></a></td>
+              </tr>
+
+              {% endfor %}
+            </tbody>
+          </table>
+        <!---  Others wishlist ------------------------->
+        <h3>Items added to your wish list</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Added by</th>
+              <th>Date added</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in others_wl %}
+            <tr>
+              <th scope="row"><a href="wish_items/{{product.poster.id}}">{{product.item}}</a></th>
+              <td>{{product.poster.username}}</td>
+              <td>{{product.created_at}}</td>
+              <td><a href="/remove/{{product.id}}"><button class="btn btn-danger">Remove from my list</button></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+
+
+          <h3>Other User's Wish List!</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Added by</th>
+                <th>Date added</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for others in other_products %}
+              <tr>
+                <th scope="row"><a href="wish_items/{{others.poster.id}}">{{others.item}}</a></th>
+                <td>{{others.poster.username}}</td>
+                <td>{{others.poster.created_at}}</td>
+                <td><a href="/add_wishlist/{{others.id}}"><button class="btn btn-danger">Add to wish list</button></a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <a href="/wish_items/create"><button class="btn btn-primary">Add Item</button></a>
+
+        </div>
+      </div>
+    </div>
+
+
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+</html>
